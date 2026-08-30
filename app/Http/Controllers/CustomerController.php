@@ -14,9 +14,8 @@ class CustomerController extends Controller
 
         $totalPenyewaan = Penyewaan::where('user_id', $userId)->count();
         $pendingCount = Penyewaan::where('user_id', $userId)->where('status', 'pending')->count();
-        $activeCount = Penyewaan::where('user_id', $userId)
-            ->whereIn('status', ['disetujui', 'menunggu_pembayaran', 'dibayar', 'sedang_disewa'])
-            ->count();
+        $paymentCount = Penyewaan::where('user_id', $userId)->where('status', 'menunggu_pembayaran')->count();
+        $activeCount = Penyewaan::where('user_id', $userId)->whereIn('status', ['dibayar', 'sedang_disewa'])->count();
         $completedCount = Penyewaan::where('user_id', $userId)->where('status', 'selesai')->count();
 
         $recentPenyewaan = Penyewaan::with('detailPenyewaans.alat')
@@ -26,7 +25,7 @@ class CustomerController extends Controller
             ->get();
 
         return view('customer.dashboard', compact(
-            'totalPenyewaan', 'pendingCount', 'activeCount', 'completedCount', 'recentPenyewaan'
+            'totalPenyewaan', 'pendingCount', 'paymentCount', 'activeCount', 'completedCount', 'recentPenyewaan'
         ));
     }
 
@@ -42,9 +41,12 @@ class CustomerController extends Controller
 
     public function rentalDetail($id)
     {
-        $penyewaan = Penyewaan::with(['detailPenyewaans.alat', 'pembayarans', 'pengembalian', 'dendas'])
-            ->where('user_id', auth()->id())
-            ->findOrFail($id);
+        $penyewaan = $this->ownPenyewaan($id)->load([
+            'detailPenyewaans.alat',
+            'pembayarans',
+            'pengembalian',
+            'dendas',
+        ]);
 
         ActivityLogService::lihatTransaksi(auth()->id());
 
@@ -62,7 +64,7 @@ class CustomerController extends Controller
 
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'no_telepon' => 'nullable|string|max:20',
             'alamat' => 'nullable|string',
             'password' => 'nullable|min:6|confirmed',

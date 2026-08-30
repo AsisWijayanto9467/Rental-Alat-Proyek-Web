@@ -26,33 +26,33 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-clock text-yellow-500 text-lg"></i>
+                        <i class="fas fa-hourglass-half text-yellow-500 text-lg"></i>
                     </div>
                     <div>
                         <p class="text-2xl font-extrabold text-[#2A2A2A]">{{ $pendingCount }}</p>
-                        <p class="text-xs text-gray-500 font-medium">Pending</p>
+                        <p class="text-xs text-gray-500 font-medium">Menunggu Persetujuan</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-credit-card text-orange-500 text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-[#2A2A2A]">{{ $paymentCount }}</p>
+                        <p class="text-xs text-gray-500 font-medium">Menunggu Pembayaran</p>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-spinner text-blue-500 text-lg"></i>
+                        <i class="fas fa-tools text-blue-500 text-lg"></i>
                     </div>
                     <div>
                         <p class="text-2xl font-extrabold text-[#2A2A2A]">{{ $activeCount }}</p>
-                        <p class="text-xs text-gray-500 font-medium">Active</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-check-circle text-green-500 text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-extrabold text-[#2A2A2A]">{{ $completedCount }}</p>
-                        <p class="text-xs text-gray-500 font-medium">Completed</p>
+                        <p class="text-xs text-gray-500 font-medium">Sedang Disewa</p>
                     </div>
                 </div>
             </div>
@@ -107,22 +107,22 @@
                                     @php
                                         $statusColors = [
                                             'pending' => 'bg-yellow-100 text-yellow-800',
-                                            'disetujui' => 'bg-blue-100 text-blue-800',
-                                            'ditolak' => 'bg-red-100 text-red-800',
                                             'menunggu_pembayaran' => 'bg-orange-100 text-orange-800',
-                                            'dibayar' => 'bg-green-100 text-green-800',
-                                            'sedang_disewa' => 'bg-purple-100 text-purple-800',
+                                            'dibayar' => 'bg-blue-100 text-blue-800',
+                                            'sedang_disewa' => 'bg-blue-100 text-blue-800',
+                                            'menunggu_inspeksi' => 'bg-orange-100 text-orange-800',
                                             'selesai' => 'bg-gray-100 text-gray-600',
+                                            'ditolak' => 'bg-red-100 text-red-800',
                                             'dibatalkan' => 'bg-red-100 text-red-800',
                                         ];
                                         $statusLabels = [
-                                            'pending' => 'Pending',
-                                            'disetujui' => 'Disetujui',
-                                            'ditolak' => 'Ditolak',
-                                            'menunggu_pembayaran' => 'Bayar',
+                                            'pending' => 'Menunggu Persetujuan',
+                                            'menunggu_pembayaran' => 'Menunggu Pembayaran',
                                             'dibayar' => 'Dibayar',
-                                            'sedang_disewa' => 'Disewa',
+                                            'sedang_disewa' => 'Sedang Disewa',
+                                            'menunggu_inspeksi' => 'Menunggu Inspeksi',
                                             'selesai' => 'Selesai',
+                                            'ditolak' => 'Ditolak',
                                             'dibatalkan' => 'Dibatalkan',
                                         ];
                                     @endphp

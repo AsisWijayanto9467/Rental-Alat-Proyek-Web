@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PenyewaanRequest;
 use App\Models\AlatProyek;
-use App\Models\Penyewaan;
 use App\Models\DetailPenyewaan;
+use App\Models\Penyewaan;
 use App\Services\ActivityLogService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class RentalController extends Controller
 {
@@ -24,16 +24,8 @@ class RentalController extends Controller
         return view('customer.rental-form', compact('alat'));
     }
 
-    public function store(Request $request)
+    public function store(PenyewaanRequest $request)
     {
-        $request->validate([
-            'alat_id' => 'required|exists:alat_proyeks,id',
-            'tanggal_mulai' => 'required|date|after_or_equal:today',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'jumlah' => 'required|integer|min:1',
-            'catatan' => 'nullable|string|max:1000',
-        ]);
-
         $alat = AlatProyek::findOrFail($request->alat_id);
 
         if ($alat->status !== 'tersedia' || $alat->stok_tersedia <= 0) {
@@ -58,6 +50,8 @@ class RentalController extends Controller
         DB::beginTransaction();
 
         try {
+            // Penyewaan baru selalu berstatus 'pending' (menunggu persetujuan
+            // Admin/Petugas). Tidak langsung disetujui maupun dibayar.
             $penyewaan = Penyewaan::create([
                 'kode_penyewaan' => (new Penyewaan)->generateKode(),
                 'user_id' => auth()->id(),
@@ -82,6 +76,8 @@ class RentalController extends Controller
                 'catatan' => null,
             ]);
 
+            // Stok dipesan (dikurangi) saat pengajuan, dikembalikan kembali jika
+            // penyewaan ditolak, dibatalkan, atau selesai.
             $alat->decrement('stok_tersedia', $request->jumlah);
 
             ActivityLogService::ajukanPenyewaan(auth()->id(), $penyewaan->id);
@@ -89,11 +85,42 @@ class RentalController extends Controller
             DB::commit();
 
             return redirect()->route('customer.rental-detail', $penyewaan->id)
-                ->with('success', 'Penyewaan berhasil diajukan! Menunggu persetujuan admin.');
+                ->with('success', 'Penyewaan berhasil diajukan! Menunggu persetujuan.');
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return back()->withInput()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
+        }
+    }
+
+    public function batal($id)
+    {
+        $penyewaan = $this->ownPenyewaan($id)->load('detailPenyewaans.alat');
+
+        if ($penyewaan->status !== 'pending') {
+            return back()->with('error', 'Penyewaan ini tidak dapat dibatalkan pada status saat ini.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $penyewaan->update(['status' => 'dibatalkan']);
+
+            foreach ($penyewaan->detailPenyewaans as $detail) {
+                $detail->alat()->increment('stok_tersedia', $detail->jumlah);
+            }
+
+            ActivityLogService::batalkanPenyewaan(auth()->id(), $penyewaan->id);
+
+            DB::commit();
+
+            return redirect()->route('customer.rental-detail', $penyewaan->id)
+                ->with('success', 'Penyewaan berhasil dibatalkan & stok dikembalikan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
         }
     }
 }

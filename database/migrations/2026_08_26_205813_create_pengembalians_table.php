@@ -16,9 +16,8 @@ return new class extends Migration
             $table->text('kondisi_alat')->nullable();
             $table->integer('terlambat_hari')->default(0);
             $table->text('catatan')->nullable();
-            $table->enum('status', ['diterima', 'perlu_perbaikan', 'ditolak'])->default('diterima');
+            $table->enum('status', ['menunggu_inspeksi', 'diterima', 'perlu_perbaikan', 'ditolak'])->default('menunggu_inspeksi');
             $table->timestamps();
-
             $table->foreign('diterima_oleh')->references('id')->on('users')->nullOnDelete();
         });
     }

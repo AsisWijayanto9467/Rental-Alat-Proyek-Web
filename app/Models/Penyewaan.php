@@ -24,6 +24,7 @@ class Penyewaan extends Model
         'total',
         'status',
         'catatan',
+        'alasan_penolakan',
         'processed_by',
     ];
 
@@ -84,6 +85,6 @@ class Penyewaan extends Model
             $nextNumber = 1;
         }
 
-        return "PW-$date-" . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return "PW-$date-".str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }

@@ -82,38 +82,31 @@
                 {{-- Desktop Auth --}}
                 <div class="hidden lg:flex items-center gap-3">
                     @auth
-                        @if(auth()->user()->role === 'user')
-                            <a href="{{ route('customer.dashboard') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#2A2A2A] rounded-lg hover:bg-gray-100 transition">Dashboard</a>
-                            <a href="{{ route('customer.my-rentals') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#2A2A2A] rounded-lg hover:bg-gray-100 transition">My Rentals</a>
-                            <div class="w-px h-6 bg-gray-200"></div>
-                            <div x-data="{ open: false }" class="relative">
-                                <button @click="open = !open" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
-                                    <div class="w-8 h-8 bg-[#F7C264] rounded-full flex items-center justify-center text-[#2A2A2A] font-bold text-xs">
-                                        {{ strtoupper(substr(auth()->user()->nama, 0, 2)) }}
-                                    </div>
-                                    <span class="text-sm font-semibold text-gray-700 max-w-[120px] truncate">{{ auth()->user()->nama }}</span>
-                                    <i class="fas fa-chevron-down text-gray-400 text-[10px]"></i>
-                                </button>
-                                <div x-show="open" @click.away="open = false" x-transition
-                                    class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
-                                    <a href="{{ route('customer.profile') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
-                                        <i class="fas fa-user w-4 text-gray-400"></i> Profile
-                                    </a>
-                                    <hr class="my-1 border-gray-100">
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">
-                                            <i class="fas fa-sign-out-alt w-4"></i> Logout
-                                        </button>
-                                    </form>
+                        <a href="{{ route('customer.dashboard') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#2A2A2A] rounded-lg hover:bg-gray-100 transition">Dashboard</a>
+                        <a href="{{ route('customer.my-rentals') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#2A2A2A] rounded-lg hover:bg-gray-100 transition">My Rentals</a>
+                        <div class="w-px h-6 bg-gray-200"></div>
+                        <div x-data="{ open: false }" class="relative">
+                            <button @click="open = !open" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+                                <div class="w-8 h-8 bg-[#F7C264] rounded-full flex items-center justify-center text-[#2A2A2A] font-bold text-xs">
+                                    {{ strtoupper(substr(auth()->user()->nama, 0, 2)) }}
                                 </div>
+                                <span class="text-sm font-semibold text-gray-700 max-w-[120px] truncate">{{ auth()->user()->nama }}</span>
+                                <i class="fas fa-chevron-down text-gray-400 text-[10px]"></i>
+                            </button>
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+                                <a href="{{ route('customer.profile') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-user w-4 text-gray-400"></i> Profile
+                                </a>
+                                <hr class="my-1 border-gray-100">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">
+                                        <i class="fas fa-sign-out-alt w-4"></i> Logout
+                                    </button>
+                                </form>
                             </div>
-                        @else
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-red-600 transition">Logout</button>
-                            </form>
-                        @endif
+                        </div>
                     @else
                         <a href="{{ route('login') }}" class="px-5 py-2.5 text-sm font-semibold text-[#2A2A2A] border border-gray-300 rounded-lg hover:bg-gray-50 transition">Login</a>
                         <a href="{{ route('register') }}" class="px-5 py-2.5 text-sm font-semibold text-[#2A2A2A] bg-[#F7C264] rounded-lg hover:bg-[#e5a83b] transition shadow-sm">Register</a>
@@ -137,15 +130,13 @@
                 <a href="{{ route('contact') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Contact</a>
                 <hr class="my-2 border-gray-200">
                 @auth
-                    @if(auth()->user()->role === 'user')
-                        <a href="{{ route('customer.dashboard') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Dashboard</a>
-                        <a href="{{ route('customer.my-rentals') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">My Rentals</a>
-                        <a href="{{ route('customer.profile') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Profile</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-semibold text-red-600 rounded-lg hover:bg-red-50">Logout</button>
-                        </form>
-                    @endif
+                    <a href="{{ route('customer.dashboard') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Dashboard</a>
+                    <a href="{{ route('customer.my-rentals') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">My Rentals</a>
+                    <a href="{{ route('customer.profile') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-semibold text-red-600 rounded-lg hover:bg-red-50">Logout</button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="block px-4 py-2.5 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-100">Login</a>
                     <a href="{{ route('register') }}" class="block px-4 py-2.5 text-sm font-semibold text-[#2A2A2A] bg-[#F7C264] rounded-lg text-center mt-2">Register</a>

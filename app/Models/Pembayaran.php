@@ -12,6 +12,7 @@ class Pembayaran extends Model
 
     protected $fillable = [
         'penyewaan_id',
+        'denda_id',
         'kode_pembayaran',
         'tanggal_pembayaran',
         'jumlah',
@@ -37,6 +38,11 @@ class Pembayaran extends Model
         return $this->belongsTo(Penyewaan::class);
     }
 
+    public function denda(): BelongsTo
+    {
+        return $this->belongsTo(Denda::class);
+    }
+
     public function diverifikasiOleh(): BelongsTo
     {
         return $this->belongsTo(User::class, 'diverifikasi_oleh');
@@ -56,6 +62,6 @@ class Pembayaran extends Model
             $nextNumber = 1;
         }
 
-        return "PAY-$date-" . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return "PAY-$date-".str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }

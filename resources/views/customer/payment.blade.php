@@ -15,18 +15,37 @@
             <h3 class="font-bold text-[#2A2A2A] mb-4">Payment Summary</h3>
             <div class="space-y-3 text-sm">
                 <div class="flex justify-between py-2 border-b border-gray-100">
-                    <span class="text-gray-500">Kode Penyewaan</span>
+                    <span class="text-gray-500">Nomor Penyewaan</span>
                     <span class="font-semibold text-[#2A2A2A]">{{ $penyewaan->kode_penyewaan }}</span>
                 </div>
                 <div class="flex justify-between py-2 border-b border-gray-100">
-                    <span class="text-gray-500">Tanggal</span>
-                    <span class="font-semibold text-[#2A2A2A]">{{ $penyewaan->tanggal_mulai->format('d M Y') }} - {{ $penyewaan->tanggal_selesai->format('d M Y') }}</span>
+                    <span class="text-gray-500">Durasi Sewa</span>
+                    <span class="font-semibold text-[#2A2A2A]">{{ $penyewaan->tanggal_mulai->format('d M Y') }} - {{ $penyewaan->tanggal_selesai->format('d M Y') }} ({{ $penyewaan->total_hari }} hari)</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-500">Detail Alat</span>
+                    <span class="font-semibold text-[#2A2A2A] text-right">
+                        @foreach($penyewaan->detailPenyewaans as $detail)
+                            {{ $detail->alat->nama_alat }} × {{ $detail->jumlah }}<br>
+                        @endforeach
+                    </span>
                 </div>
                 <div class="flex justify-between py-3">
-                    <span class="font-bold text-[#2A2A2A]">Total</span>
+                    <span class="font-bold text-[#2A2A2A]">Total Pembayaran</span>
                     <span class="font-extrabold text-[#2A2A2A] text-lg">Rp {{ number_format($penyewaan->total, 0, ',', '.') }}</span>
                 </div>
             </div>
+        </div>
+
+        {{-- Payment Instructions --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <h3 class="font-bold text-[#2A2A2A] mb-3">Instruksi Pembayaran</h3>
+            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
+                <li>Lakukan pembayaran sesuai total pembayaran di atas menggunakan metode <strong>Transfer</strong>, <strong>Cash</strong>, atau <strong>QRIS</strong>.</li>
+                <li>Simpan / screenshot bukti pembayaran (format gambar, maksimal 2MB).</li>
+                <li>Unggah bukti pembayaran pada form di bawah.</li>
+                <li>Bukti akan diperiksa oleh petugas. Setelah diverifikasi, penyewaan Anda berstatus <strong>Dibayar</strong>.</li>
+            </ol>
         </div>
 
         {{-- Payment Form --}}

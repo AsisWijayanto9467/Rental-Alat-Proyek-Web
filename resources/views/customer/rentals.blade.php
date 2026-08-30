@@ -37,22 +37,22 @@
                                 @php
                                     $statusColors = [
                                         'pending' => 'bg-yellow-100 text-yellow-800',
-                                        'disetujui' => 'bg-blue-100 text-blue-800',
-                                        'ditolak' => 'bg-red-100 text-red-800',
                                         'menunggu_pembayaran' => 'bg-orange-100 text-orange-800',
-                                        'dibayar' => 'bg-green-100 text-green-800',
-                                        'sedang_disewa' => 'bg-purple-100 text-purple-800',
+                                        'dibayar' => 'bg-blue-100 text-blue-800',
+                                        'sedang_disewa' => 'bg-blue-100 text-blue-800',
+                                        'menunggu_inspeksi' => 'bg-orange-100 text-orange-800',
                                         'selesai' => 'bg-gray-100 text-gray-600',
+                                        'ditolak' => 'bg-red-100 text-red-800',
                                         'dibatalkan' => 'bg-red-100 text-red-800',
                                     ];
                                     $statusLabels = [
-                                        'pending' => 'Pending',
-                                        'disetujui' => 'Disetujui',
-                                        'ditolak' => 'Ditolak',
+                                        'pending' => 'Menunggu Persetujuan',
                                         'menunggu_pembayaran' => 'Menunggu Pembayaran',
                                         'dibayar' => 'Dibayar',
                                         'sedang_disewa' => 'Sedang Disewa',
+                                        'menunggu_inspeksi' => 'Menunggu Inspeksi',
                                         'selesai' => 'Selesai',
+                                        'ditolak' => 'Ditolak',
                                         'dibatalkan' => 'Dibatalkan',
                                     ];
                                 @endphp

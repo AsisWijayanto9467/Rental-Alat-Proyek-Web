@@ -16,6 +16,7 @@ class Pengembalian extends Model
         'tanggal_pengembalian',
         'diterima_oleh',
         'kondisi_alat',
+        'foto',
         'terlambat_hari',
         'catatan',
         'status',

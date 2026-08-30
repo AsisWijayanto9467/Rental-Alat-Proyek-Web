@@ -6,8 +6,10 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
@@ -30,8 +32,8 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Customer Routes (authenticated user only)
-Route::middleware(['auth', 'role:user'])->group(function () {
+// Authenticated Customer Routes
+Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
     Route::get('/my-rentals', [CustomerController::class, 'myRentals'])->name('customer.my-rentals');
     Route::get('/my-rentals/{id}', [CustomerController::class, 'rentalDetail'])->name('customer.rental-detail');
@@ -40,17 +42,29 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
     Route::get('/rental/create/{id}', [RentalController::class, 'create'])->name('rental.create');
     Route::post('/rental', [RentalController::class, 'store'])->name('rental.store');
+    Route::post('/rental/{id}/batal', [RentalController::class, 'batal'])->name('rental.batal');
 
     Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
     Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('/payment-denda/{penyewaan}/{denda}', [PaymentController::class, 'showDenda'])->name('payment.denda.show');
+
+    Route::get('/pengembalian/{id}/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
+    Route::post('/pengembalian/{id}', [PengembalianController::class, 'store'])->name('pengembalian.store');
 });
 
-// Admin Routes (stub)
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', fn () => view('admin.dashboard'))->name('dashboard');
-});
+// Backend verifikasi untuk Admin/Petugas (UI lengkap dipisah ke aplikasi admin).
+// Endpoint di bawah ini hanya menyediakan aksi backend agar alur user berjalan.
+Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
+    Route::get('/admin', [VerifikasiController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/petugas', [VerifikasiController::class, 'dashboard'])->name('petugas.dashboard');
 
-// Petugas Routes (stub)
-Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->name('petugas.')->group(function () {
-    Route::get('/dashboard', fn () => view('petugas.dashboard'))->name('dashboard');
+    Route::prefix('verifikasi')->name('verifikasi.')->group(function () {
+        Route::get('/', [VerifikasiController::class, 'dashboard'])->name('dashboard');
+        Route::post('/penyewaan/{id}/setujui', [VerifikasiController::class, 'setujuiPenyewaan'])->name('penyewaan.setujui');
+        Route::post('/penyewaan/{id}/tolak', [VerifikasiController::class, 'tolakPenyewaan'])->name('penyewaan.tolak');
+        Route::post('/pembayaran/{id}/verifikasi', [VerifikasiController::class, 'verifikasiPembayaran'])->name('pembayaran.verifikasi');
+        Route::post('/pembayaran/{id}/tolak', [VerifikasiController::class, 'tolakPembayaran'])->name('pembayaran.tolak');
+        Route::post('/pengembalian/{id}/terima', [VerifikasiController::class, 'terimaPengembalian'])->name('pengembalian.terima');
+        Route::post('/pengembalian/{id}/tolak', [VerifikasiController::class, 'tolakPengembalian'])->name('pengembalian.tolak');
+    });
 });

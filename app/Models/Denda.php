@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Denda extends Model
 {
@@ -34,5 +35,10 @@ class Denda extends Model
     public function pengembalian(): BelongsTo
     {
         return $this->belongsTo(Pengembalian::class);
+    }
+
+    public function pembayarans(): HasMany
+    {
+        return $this->hasMany(Pembayaran::class);
     }
 }
