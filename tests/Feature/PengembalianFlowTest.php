@@ -42,7 +42,7 @@ class PengembalianFlowTest extends TestCase
 
     public function test_user_can_submit_return_and_it_waits_for_inspection(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $user = User::factory()->create();
         [$penyewaan, $alat] = $this->createRental($user, 'dibayar', now()->toDateString());
@@ -82,7 +82,7 @@ class PengembalianFlowTest extends TestCase
 
     public function test_late_return_records_terlambat_hari(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $user = User::factory()->create();
         [$penyewaan] = $this->createRental($user, 'sedang_disewa', now()->toDateString());
@@ -105,7 +105,7 @@ class PengembalianFlowTest extends TestCase
 
     public function test_user_cannot_return_other_users_rental(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $owner = User::factory()->create();
         $other = User::factory()->create();
@@ -121,7 +121,7 @@ class PengembalianFlowTest extends TestCase
 
     public function test_user_cannot_return_rental_not_in_active_status(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $user = User::factory()->create();
         [$penyewaan] = $this->createRental($user, 'pending', now()->toDateString());

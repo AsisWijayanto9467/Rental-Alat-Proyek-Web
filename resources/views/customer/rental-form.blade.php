@@ -76,9 +76,13 @@
             <div>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 bg-[#2A2A2A] rounded-xl flex items-center justify-center shrink-0">
-                            <i class="fas fa-hard-hat text-[#F7C264]"></i>
-                        </div>
+                        @if($alat->gambar)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($alat->gambar) }}" alt="{{ $alat->nama_alat }}" class="w-12 h-12 rounded-xl object-cover shrink-0">
+                        @else
+                            <div class="w-12 h-12 bg-[#2A2A2A] rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-hard-hat text-[#F7C264]"></i>
+                            </div>
+                        @endif
                         <div>
                             <h3 class="font-bold text-[#2A2A2A] text-sm">{{ $alat->nama_alat }}</h3>
                             <p class="text-gray-500 text-xs">{{ $alat->kategori->nama_kategori }}</p>

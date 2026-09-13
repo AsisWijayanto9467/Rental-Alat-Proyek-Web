@@ -49,7 +49,7 @@ class PengembalianController extends Controller
         $terlambatHari = max(0, $tanggalSelesai->startOfDay()->diffInDays($tanggalPengembalian->startOfDay(), false));
 
         try {
-            $fotoPath = $request->file('foto')->store('bukti-pengembalian', 'public');
+            $fotoPath = $request->file('foto')->store('dokumen', 'cross');
 
             // User mengajukan pengembalian -> status 'menunggu_inspeksi'.
             // Tidak langsung 'diterima'/'selesai'; fotonya akan diperiksa

@@ -39,7 +39,7 @@ class PaymentFlowTest extends TestCase
 
     public function test_user_can_upload_denda_payment_that_stays_pending(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $user = User::factory()->create();
         $penyewaan = $this->makeRental($user, 'selesai');
@@ -70,7 +70,7 @@ class PaymentFlowTest extends TestCase
 
     public function test_cannot_pay_other_users_pending_denda(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
 
         $owner = User::factory()->create();
         $other = User::factory()->create();

@@ -83,7 +83,7 @@ class VerificationFlowTest extends TestCase
 
     public function test_user_cannot_upload_payment_without_menunggu_pembayaran_status(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
         $user = User::factory()->create();
         $penyewaan = $this->makeRental($user, 'disetujui');
 
@@ -100,7 +100,7 @@ class VerificationFlowTest extends TestCase
 
     public function test_uploading_payment_keeps_penyewaan_on_menunggu_pembayaran_with_pending_payment(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
         $user = User::factory()->create();
         $penyewaan = $this->makeRental($user, 'menunggu_pembayaran');
 
@@ -127,7 +127,7 @@ class VerificationFlowTest extends TestCase
 
     public function test_user_cannot_upload_second_payment_while_one_is_pending(): void
     {
-        Storage::fake('public');
+        Storage::fake('cross');
         $user = User::factory()->create();
         $penyewaan = $this->makeRental($user, 'menunggu_pembayaran');
 

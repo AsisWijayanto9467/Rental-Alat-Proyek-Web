@@ -19,8 +19,12 @@
             <div class="lg:col-span-2 space-y-6">
                 {{-- Image --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="h-72 sm:h-96 bg-gradient-to-br from-[#2A2A2A] to-[#1a1a1a] flex items-center justify-center relative">
-                        <i class="fas fa-hard-hat text-[#F7C264] text-[120px]"></i>
+                    <div class="h-72 sm:h-96 bg-gradient-to-br from-[#2A2A2A] to-[#1a1a1a] flex items-center justify-center relative overflow-hidden">
+                        @if($alat->gambar)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($alat->gambar) }}" alt="{{ $alat->nama_alat }}" class="w-full h-full object-cover">
+                        @else
+                            <i class="fas fa-hard-hat text-[#F7C264] text-[120px]"></i>
+                        @endif
                         <div class="absolute top-6 left-6">
                             <span class="bg-[#F7C264] text-[#2A2A2A] text-xs font-bold px-3 py-1.5 rounded-full uppercase">{{ $alat->kategori->nama_kategori }}</span>
                         </div>
@@ -147,8 +151,12 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($relatedAlat as $related)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
-                    <div class="relative h-40 bg-gradient-to-br from-[#2A2A2A] to-[#1a1a1a] flex items-center justify-center">
-                        <i class="fas fa-hard-hat text-[#F7C264] text-4xl group-hover:scale-110 transition-transform"></i>
+                    <div class="relative h-40 bg-gradient-to-br from-[#2A2A2A] to-[#1a1a1a] flex items-center justify-center overflow-hidden">
+                        @if($related->gambar)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($related->gambar) }}" alt="{{ $related->nama_alat }}" class="w-full h-full object-cover">
+                        @else
+                            <i class="fas fa-hard-hat text-[#F7C264] text-4xl group-hover:scale-110 transition-transform"></i>
+                        @endif
                     </div>
                     <div class="p-4">
                         <h3 class="font-bold text-[#2A2A2A] text-sm group-hover:text-[#F7C264] transition">{{ $related->nama_alat }}</h3>

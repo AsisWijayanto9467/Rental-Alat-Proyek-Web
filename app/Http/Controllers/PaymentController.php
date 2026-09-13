@@ -72,7 +72,7 @@ class PaymentController extends Controller
                 return back()->with('error', 'Bukti pembayaran denda sudah dikirim dan menunggu verifikasi.');
             }
 
-            $buktiPath = $request->file('bukti_pembayaran')->store('bukti-pembayaran', 'public');
+            $buktiPath = $request->file('bukti_pembayaran')->store('dokumen', 'cross');
 
             $pembayaran = Pembayaran::create([
                 'penyewaan_id' => $penyewaan->id,
@@ -104,7 +104,7 @@ class PaymentController extends Controller
             return back()->with('error', 'Bukti pembayaran sudah dikirim dan menunggu verifikasi.');
         }
 
-        $buktiPath = $request->file('bukti_pembayaran')->store('bukti-pembayaran', 'public');
+        $buktiPath = $request->file('bukti_pembayaran')->store('dokumen', 'cross');
 
         // Upload bukti pembayaran TIDAK langsung mengubah penyewaan menjadi dibayar.
         // Pembayaran disimpan status 'pending' (menunggu verifikasi) dan penyewaan

@@ -76,7 +76,11 @@
                 @foreach($alats as $alat)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
                     <div class="relative h-52 bg-gradient-to-br from-[#2A2A2A] to-[#1a1a1a] flex items-center justify-center overflow-hidden">
-                        <i class="fas fa-hard-hat text-[#F7C264] text-6xl group-hover:scale-110 transition-transform duration-500"></i>
+                        @if($alat->gambar)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($alat->gambar) }}" alt="{{ $alat->nama_alat }}" class="w-full h-full object-cover">
+                        @else
+                            <i class="fas fa-hard-hat text-[#F7C264] text-6xl group-hover:scale-110 transition-transform duration-500"></i>
+                        @endif
                         <div class="absolute top-4 left-4">
                             <span class="bg-[#F7C264] text-[#2A2A2A] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">{{ $alat->kategori->nama_kategori }}</span>
                         </div>

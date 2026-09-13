@@ -47,6 +47,15 @@ return [
             'report' => false,
         ],
 
+        'cross' => [
+            'driver' => 'local',
+            'root' => env('CROSS_STORAGE_PATH', 'D:/Cross_Storage/Sistem_Proyek'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/cross',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

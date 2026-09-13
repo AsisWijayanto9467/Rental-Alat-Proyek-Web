@@ -45,7 +45,7 @@
                     <p class="font-bold text-[#2A2A2A] text-sm">{{ $bayar->kode_pembayaran }}</p>
                     <p class="text-gray-500 text-xs">{{ $bayar->penyewaan?->kode_penyewaan }} · {{ $bayar->penyewaan?->user?->nama }} · Rp {{ number_format($bayar->jumlah, 0, ',', '.') }} {{ $bayar->denda_id ? '· Denda' : '' }}</p>
                     @if($bayar->bukti_pembayaran)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bayar->bukti_pembayaran) }}" alt="Bukti" class="mt-2 w-40 h-24 object-cover rounded-lg border border-gray-200">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($bayar->bukti_pembayaran) }}" alt="Bukti" class="mt-2 w-40 h-24 object-cover rounded-lg border border-gray-200">
                     @endif
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
@@ -74,7 +74,7 @@
                     <p class="font-bold text-[#2A2A2A] text-sm">{{ $pmb->penyewaan?->kode_penyewaan }} — {{ $pmb->penyewaan?->user?->nama }}</p>
                     <p class="text-gray-500 text-xs">Kembali {{ $pmb->tanggal_pengembalian->format('d M Y') }} · Terlambat {{ $pmb->terlambat_hari }} hari</p>
                     @if($pmb->foto)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($pmb->foto) }}" alt="Foto pengembalian" class="mt-2 w-40 h-24 object-cover rounded-lg border border-gray-200">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($pmb->foto) }}" alt="Foto pengembalian" class="mt-2 w-40 h-24 object-cover rounded-lg border border-gray-200">
                     @endif
                 </div>
                 <div class="flex flex-wrap items-center gap-2">

@@ -36,9 +36,13 @@
                 @foreach($penyewaan->detailPenyewaans as $detail)
                 <div class="flex items-center justify-between bg-[#F5F5F3] rounded-xl p-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-[#2A2A2A] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-hard-hat text-[#F7C264]"></i>
-                        </div>
+                        @if($detail->alat->gambar)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($detail->alat->gambar) }}" alt="{{ $detail->alat->nama_alat }}" class="w-10 h-10 rounded-lg object-cover">
+                        @else
+                            <div class="w-10 h-10 bg-[#2A2A2A] rounded-lg flex items-center justify-center">
+                                <i class="fas fa-hard-hat text-[#F7C264]"></i>
+                            </div>
+                        @endif
                         <div>
                             <p class="font-bold text-[#2A2A2A] text-sm">{{ $detail->alat->nama_alat }}</p>
                             <p class="text-gray-500 text-xs">{{ $detail->jumlah }} unit</p>

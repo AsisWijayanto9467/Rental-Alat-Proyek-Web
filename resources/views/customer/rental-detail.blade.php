@@ -180,9 +180,13 @@
                     <div class="space-y-3">
                         @foreach($penyewaan->detailPenyewaans as $detail)
                         <div class="flex items-center gap-4 bg-[#F5F5F3] rounded-xl p-4">
-                            <div class="w-12 h-12 bg-[#2A2A2A] rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fas fa-hard-hat text-[#F7C264] text-lg"></i>
-                            </div>
+                            @if($detail->alat->gambar)
+                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($detail->alat->gambar) }}" alt="{{ $detail->alat->nama_alat }}" class="w-12 h-12 rounded-xl object-cover shrink-0">
+                            @else
+                                <div class="w-12 h-12 bg-[#2A2A2A] rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fas fa-hard-hat text-[#F7C264] text-lg"></i>
+                                </div>
+                            @endif
                             <div class="flex-1 min-w-0">
                                 <p class="font-bold text-[#2A2A2A] text-sm truncate">{{ $detail->alat->nama_alat }}</p>
                                 <p class="text-gray-500 text-xs">Rp {{ number_format($detail->harga_sewa, 0, ',', '.') }}/day × {{ $detail->jumlah }} unit</p>
@@ -270,7 +274,7 @@
                     @if($penyewaan->pengembalian->foto)
                     <div class="mt-4">
                         <p class="text-xs text-gray-500 font-medium mb-2">Foto Pengembalian</p>
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($penyewaan->pengembalian->foto) }}" alt="Foto pengembalian" class="w-full max-h-72 object-cover rounded-xl border border-gray-200">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cross')->url($penyewaan->pengembalian->foto) }}" alt="Foto pengembalian" class="w-full max-h-72 object-cover rounded-xl border border-gray-200">
                     </div>
                     @endif
                 </div>

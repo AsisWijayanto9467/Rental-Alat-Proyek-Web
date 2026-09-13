@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CrossStorageController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LandingController;
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+// Gambar dari shared storage (D:\Cross_Storage\Sistem_Proyek).
+Route::get('storage/cross/{path}', [CrossStorageController::class, 'show'])
+    ->where('path', '.*')
+    ->name('storage.cross');
 
 Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
 Route::get('/equipment/{id}', [EquipmentController::class, 'show'])->name('equipment.show');
